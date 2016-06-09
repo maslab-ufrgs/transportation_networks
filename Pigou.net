@@ -1,0 +1,33 @@
+##################################################
+#                                                #
+# Pigou network                                  #
+#                                                #
+# Based on Pigou's example. Two additional nodes #
+# were created to avoid parallel links: n1 and   #
+# nf. The former corresponds to the link with    #
+# cost always 1 and the latter to the link with  #
+# cost that equal to the (normalised) flow. To   #
+# keep the same resulting values, the s-n1 and   #
+# s-nf links (type 0) always cost 0, the link    #
+# n1-t (type 1) always cost 1 and the link nf-t  #
+# (type f) is always the (normalised) flow.      #
+#                                                #
+# Created on 09-Jun-2016 by Gabriel de O. Ramos  #
+#                                                #
+##################################################
+#function name (args) formula
+function F0 (f) 0
+function F1 (f) 1
+function FF (f) f/t
+#node name
+node s
+node n1
+node nf
+node t
+#dedge name origin destination function constants
+dedge s-n1 s n1 F0
+dedge s-nf s nf F0
+dedge n1-t n1 t F1
+dedge nf-t nf t FF 100
+#od name origin destination flow
+od s|t s t 100
