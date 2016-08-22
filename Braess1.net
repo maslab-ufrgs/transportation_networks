@@ -11,8 +11,8 @@
 #function name (args) formula
 function Braess1A (f) 0
 function Braess1B (f) c
-function Braess1C (f) (i*c*k/r)*f #linear
-#function Braess1C (f) ((i*c*k^2+i*c*k)/r)*f-i*c*k #piecewise linear
+function Braess1C (f) (i*c*k*f)/r #linear
+#piecewise Braess1C2 (f) 0,f<r/(k+1)|((i*c*k^2+i*c*k)/r)*f-i*c*k #piecewise linear
 #node name
 node s
 node v1
