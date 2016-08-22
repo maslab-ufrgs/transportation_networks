@@ -18,49 +18,129 @@ class Validator:
 		self.__edges = []
 	
 	def __is_number(self, s):
-	    try:
-	        float(s)
-	        return True
-	    except ValueError:
-	        return False
+		try:
+			float(s)
+			return True
+		except ValueError:
+			return False
 
 	def __check_function(self, a_list):
 
 		list_of_terms = [] # terms = constants + variables
 		list_of_variables = []
 		buffer_string = ""
-
+		
+		# check if the function name is already in use
+		if a_list[1] in self.__functions.keys():
+			return "Function's name already declared!"
+		
 		if len(a_list) < 4:
 			return "Function definition is incomplete or invalid!"
 		elif len(a_list) > 4:# and a_list[4][0] != "#":
 			return "Invalid character(s) after function's formula!"
 		
-		# get terms
-		p = Parser()
-		list_of_terms = p.parse(a_list[3]).variables()
-	
 		# check if variables were defined correctly
 		if (a_list[2][0] != "(") or (a_list[2][len(a_list[2])-1] != ")"):
 			return "Function's variables need to be defined between parentheses!"
-
+		
 		# get variables
 		buffer_string = a_list[2].replace("(","")
 		buffer_string = buffer_string.replace(")","")
-		if len(buffer_string) > 0:
-			list_of_variables = buffer_string.split(",")
-
-			# check consistency of the variables
-			for v in list_of_variables:
-				if v not in list_of_terms:
-					return "Variable '%s' is not part of the function!" % v
-
-		# check if the function name is already in use
-		if a_list[1] in self.__functions.keys():
-			return "Function's name already declared!"
-		else:
-			self.__functions[a_list[1]] = [list_of_terms, list_of_variables] # to be used in the edge's checking function
+		if len(buffer_string) == 0:
+			return "Function should have at least one parameter!"
+		
+		list_of_variables = buffer_string.split(",")
+		
+		# check the formula
+		msg = ""
+		variables_to_remove = [] #list of unused variables
+		if a_list[0] == 'function':
+			msg, variables_to_remove, list_of_terms = self.__check_formula_simple(a_list[1], a_list[3], list_of_variables)
+		else: #piecewise
+			msg, variables_to_remove, list_of_terms = self.__check_formula_piecewise(a_list[1], a_list[3], list_of_variables)
+		if msg:
+			return msg
+		if len(variables_to_remove) > 0:
+			for v in variables_to_remove:
+				list_of_variables.remove(v)
+		
+		# IMPORTANT: just a warning is given here for unused variables because the  
+		# libraries recommended for interpreting the functions ignore variables that  
+		# are not in the formula during the evaluation process (check the recommended  
+		# libraries on the specification of the network files)
+					
+		self.__functions[a_list[1]] = [list_of_terms, list_of_variables] # to be used in the edge's checking function
 		
 		return ""
+	
+	def __check_formula_simple(self, formula_name, formula, list_of_variables):
+		
+		msg = ""
+		variables_to_remove = [] #list of unused variables
+		
+		# get the list of terms
+		p = Parser()
+		list_of_terms = p.parse(formula).variables()
+		
+		# check consistency of the variables
+		for v in list_of_variables:
+			if v not in list_of_terms:
+				
+				variables_to_remove.append(v)
+				
+				#return "Variable '%s' is not part of the function!" % v
+				print "WARNING: Variable '%s' is not part of function %s's formula!" % (v, formula_name)
+				
+		return msg, variables_to_remove, list_of_terms
+		
+	def __check_formula_piecewise(self, formula_name, formula, list_of_variables):
+		
+		msg = ""
+		variables_to_remove = [] #list of unused variables
+		
+		# get the list of terms
+		#p = Parser()
+		#list_of_terms = p.parse(formula).variables()
+		list_of_terms = []
+		
+		list_of_segments = formula.split('|')
+		segment_id = 0
+		for segment in list_of_segments:
+			segment_id += 1
+			spl = segment.split(',')
+			
+			msg, v_t_r, l_o_t  = self.__check_formula_simple('%s_segment%d'%(formula_name,segment_id), spl[0], list_of_variables)
+			if msg:
+				break
+			
+			variables_to_remove.extend(v_t_r) 
+			list_of_terms.extend(l_o_t)
+		
+		# check if the last segment's interval was defined (it cannot)
+		if len(spl) > 1:
+			msg = "The interval of the piecewise function should be empty!" 
+		
+		
+		# remove duplicates in variables_to_remove and list_of_terms
+		variables_to_remove = self.__remove_duplicates_preserve_order(variables_to_remove)
+		list_of_terms = self.__remove_duplicates_preserve_order(list_of_terms)
+		
+		#TODO variables can only be removed if not used in all segments
+		
+		#print variables_to_remove
+		#print list_of_terms
+		#print list_of_variables
+		
+		return msg, variables_to_remove, list_of_terms
+	
+	# from http://stackoverflow.com/questions/480214/how-do-you-remove-duplicates-from-a-list-in-python-whilst-preserving-order
+	def __remove_duplicates_preserve_order(self, seq):
+		seen = set()
+		seen_add = seen.add
+		return [x for x in seq if not (x in seen or seen_add(x))]
+	
+	def __check_piecewise_interval(self, str):
+		print 'WARNING: Validation of piecewise intervals not yet implemented!'
 
 	def __check_node(self, a_list):
 		
@@ -107,6 +187,18 @@ class Validator:
 		for e in a_list[5:]:
 			if not self.__is_number(e):
 				return "One or more constants are not numbers!"
+		
+		# if the edge is a directed one (dedge), then swap origin and destination,
+		# generate a new name, and test it again
+		if a_list[0] == 'dedge':
+			a_list[0] = 'edge'
+			a_list[1] = a_list[2]
+			a_list[2] = a_list[3]
+			a_list[3] = a_list[1]
+			a_list[1] = '%s-%s' % (a_list[2], a_list[3])
+			msg = self.__check_edge(a_list)
+			if msg:
+				return "(dedge) %s" % msg
 		
 		return ""
 
@@ -159,7 +251,7 @@ class Validator:
 			if len(taglist) == 0:
 				continue
 				
-			elif (taglist[0] == 'function'):	
+			elif (taglist[0] == 'function' or taglist[0] == 'piecewise'):	
 				if state != 'function':
 					msg = "Functions should be defined before nodes, edges and OD pairs!"
 					break
@@ -178,7 +270,7 @@ class Validator:
 				if msg:
 					break
 
-			elif (taglist[0] == 'edge'):
+			elif (taglist[0] == 'edge' or taglist[0] == 'dedge'):
 				if state == 'node':
 					state = 'edge'
 				elif state != 'edge':
