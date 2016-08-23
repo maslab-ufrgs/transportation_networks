@@ -127,13 +127,12 @@ class Validator:
 		
 		#TODO variables can only be removed if not used in all segments
 		
-		#print variables_to_remove
-		#print list_of_terms
-		#print list_of_variables
+		#TODO validate the segments' intervals (currently, only the segments' functions are evaluated)
 		
 		return msg, variables_to_remove, list_of_terms
 	
-	# from http://stackoverflow.com/questions/480214/how-do-you-remove-duplicates-from-a-list-in-python-whilst-preserving-order
+	# remove duplicates from a list preserving the original order 
+	# (ref: http://stackoverflow.com/questions/480214/how-do-you-remove-duplicates-from-a-list-in-python-whilst-preserving-order)
 	def __remove_duplicates_preserve_order(self, seq):
 		seen = set()
 		seen_add = seen.add
