@@ -189,15 +189,15 @@ class Validator:
 		
 		# if the edge is a directed one (dedge), then swap origin and destination,
 		# generate a new name, and test it again
-		if a_list[0] == 'dedge':
-			a_list[0] = 'edge'
+		if a_list[0] == 'edge':
+			a_list[0] = 'dedge'
 			a_list[1] = a_list[2]
 			a_list[2] = a_list[3]
 			a_list[3] = a_list[1]
 			a_list[1] = '%s-%s' % (a_list[2], a_list[3])
 			msg = self.__check_edge(a_list)
 			if msg:
-				return "(dedge) %s" % msg
+				return "(edge) %s" % msg
 		
 		return ""
 
