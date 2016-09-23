@@ -103,7 +103,7 @@ def generateNetwork(network_file_name):
             # create the edge(s)
             E.append(Edge(taglist[1], taglist[2], taglist[3], function, func_tuple[0]))
             if taglist[0] == 'edge':
-                E.append(Edge(taglist[1], taglist[3], taglist[2], function, func_tuple[0]))
+                E.append(Edge('%s-%s'%(taglist[3], taglist[2]), taglist[3], taglist[2], function, func_tuple[0]))
             
         elif taglist[0] == 'od':
             OD.append(taglist[1])
