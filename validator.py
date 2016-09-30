@@ -1,5 +1,5 @@
 '''
-validator v1.0
+validator v1.1
 
 Version history:
 v1.0 (17-May-2016) - Created by Ottoni Bastos.
