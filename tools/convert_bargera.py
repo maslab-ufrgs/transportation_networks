@@ -92,7 +92,7 @@ def convert_from_bargera(net_file_name, trips_file_name, new_net_file_name):
                 show_warning('Origin and/or destination node do/does not exist/s! (line %d)'%lineid)
                  
             # store the link definition
-            L.append('dedge %s %s %s BPR %s %s %s %s' % ('%s-%s' % (taglist[0], taglist[1]), taglist[0], taglist[1], taglist[3], taglist[5], taglist[2], taglist[6]))
+            L.append('dedge %s %s %s BPR %s %s %s %s' % ('%s-%s' % (taglist[0], taglist[1]), taglist[0], taglist[1], taglist[4], taglist[5], taglist[2], taglist[6]))
             
         # flag sinalising the begining of the edges' definitions
         elif line[0] == '~':
