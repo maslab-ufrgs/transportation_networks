@@ -121,7 +121,7 @@ def convert_from_bargera(net_file_name, trips_file_name, new_net_file_name):
         elif current_origin != None:
             
             # split the line
-            taglist = line.replace(' ', '').split(';')
+            taglist = line.replace(' ', '').replace('\t','').split(';')
             if len(taglist) == 0:
                 continue
             
@@ -157,9 +157,9 @@ if __name__ == '__main__':
                         help='the output network file (following Maslab\'s network files specification)')
     args = parser.parse_args()
     
-    net_file_name = args.net_file#'SiouxFalls_net.tntp'
-    trips_file_name = args.trips_file#'SiouxFalls_trips.tntp'
-    new_net_file_name = args.out_net_file#'SF.net'
+    net_file_name = args.net_file
+    trips_file_name = args.trips_file
+    new_net_file_name = args.out_net_file
     
     convert_from_bargera(net_file_name, trips_file_name, new_net_file_name)
     
