@@ -1,0 +1,77 @@
+##################################################
+#                                                #
+# 8th Braess graph with singlecommodity flow     #
+#                                                #
+# Eighth expansion of the network used in the    #
+# original Braess paradox.                       #
+#                                                #
+# Params: p=08 nusers=4200 fixarCostArc=010      #
+# typeFunction=c1=linear                         #
+#                                                #
+# Additional references at:                      #
+# https://www.overleaf.com/read/xqkrzrsfxcyv     #
+#                                                #
+# Created on 04-01-2017 by Fernando Stefanello   #
+#                                                #
+##################################################
+#
+#type name formula variables
+function BraessG (f) m*f+n
+#
+#type name
+node s
+node v1
+node v2
+node v3
+node v4
+node v5
+node v6
+node v7
+node v8
+node w1
+node w2
+node w3
+node w4
+node w5
+node w6
+node w7
+node w8
+node t
+#
+#type name origin destination function constants
+dedge s-v1 s v1 BraessG 0.15238095238095 0.00000000000000
+dedge s-v2 s v2 BraessG 0.13333333333333 0.00000000000000
+dedge s-v3 s v3 BraessG 0.11428571428571 0.00000000000000
+dedge s-v4 s v4 BraessG 0.09523809523810 0.00000000000000
+dedge s-v5 s v5 BraessG 0.07619047619048 0.00000000000000
+dedge s-v6 s v6 BraessG 0.05714285714286 0.00000000000000
+dedge s-v7 s v7 BraessG 0.03809523809524 0.00000000000000
+dedge s-v8 s v8 BraessG 0.01904761904762 0.00000000000000
+dedge s-w8 s w8 BraessG 0.00000000000000 10.00000000000000
+dedge v1-w1 v1 w1 BraessG 0.00000000000000 0.00000000000000
+dedge v1-t v1 t BraessG 0.00000000000000 10.00000000000000
+dedge v2-w1 v2 w1 BraessG 0.00000000000000 10.00000000000000
+dedge v2-w2 v2 w2 BraessG 0.00000000000000 0.00000000000000
+dedge v3-w2 v3 w2 BraessG 0.00000000000000 10.00000000000000
+dedge v3-w3 v3 w3 BraessG 0.00000000000000 0.00000000000000
+dedge v4-w3 v4 w3 BraessG 0.00000000000000 10.00000000000000
+dedge v4-w4 v4 w4 BraessG 0.00000000000000 0.00000000000000
+dedge v5-w4 v5 w4 BraessG 0.00000000000000 10.00000000000000
+dedge v5-w5 v5 w5 BraessG 0.00000000000000 0.00000000000000
+dedge v6-w5 v6 w5 BraessG 0.00000000000000 10.00000000000000
+dedge v6-w6 v6 w6 BraessG 0.00000000000000 0.00000000000000
+dedge v7-w6 v7 w6 BraessG 0.00000000000000 10.00000000000000
+dedge v7-w7 v7 w7 BraessG 0.00000000000000 0.00000000000000
+dedge v8-w7 v8 w7 BraessG 0.00000000000000 10.00000000000000
+dedge v8-w8 v8 w8 BraessG 0.00000000000000 0.00000000000000
+dedge w1-t w1 t BraessG 0.01904761904762 0.00000000000000
+dedge w2-t w2 t BraessG 0.03809523809524 0.00000000000000
+dedge w3-t w3 t BraessG 0.05714285714286 0.00000000000000
+dedge w4-t w4 t BraessG 0.07619047619048 0.00000000000000
+dedge w5-t w5 t BraessG 0.09523809523810 0.00000000000000
+dedge w6-t w6 t BraessG 0.11428571428571 0.00000000000000
+dedge w7-t w7 t BraessG 0.13333333333333 0.00000000000000
+dedge w8-t w8 t BraessG 0.15238095238095 0.00000000000000
+#
+#name origin destination flow
+od s|t s t 4200
