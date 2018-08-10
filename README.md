@@ -1,11 +1,13 @@
-# Network description syntax
-This is the syntax description for the network files which are used by MASLAB-UFRGS.
+# Transportation networks
+This repository features several transportation networks to be used for traffic simulation. 
+These networks were created by [maslab-ufrgs](https://github.com/maslab-ufrgs) based on the literature (references are given with networks files), but following a novel and more flexible syntax (defined by our group). 
 
-Here we also have some examples of the most commonly used networks.
+In this document, we present (only in Portuguese): 
+* the specification of the network files, 
+* the list of network files available in this repository, and 
+* the script files that can be used to manipulate the network files.
 
-To read these network files, we already have an example code on how to read it [here](https://github.com/maslab-ufrgs/ksp/blob/master/KSP.py#L93).
-
-## Especificação
+## Especificação de arquivos de rede
 Um arquivo de rede é definido pelos seguintes elementos:
 * function (e piecewise): descreve uma função de custo ou uma função de custo piecewise.
 * node: descreve um vértice da rede.
@@ -16,7 +18,7 @@ Os elementos devem ser declarados nesta mesma ordem, ou seja, primeiro funções
 Comentários podem ser feitos com o caractere #. 
 A sintaxe de cada elemento é definida a seguir. Vale ressaltar que apenas espaços simples são aceitos para separar os campos de cada elemento.
 
-## Síntaxe function
+### Sintaxe do elemento 'function'
 A sintaxe de uma função comum é a seguinte:
 ```
 function name (args) formula
@@ -45,7 +47,7 @@ Onde:
 * "formula" segue a mesma especificação que em "function".
 * "intervalo" representa uma expressão lógica (idealmente envolvendo as variáveis da fórmula).
 
-## Síntaxe node
+### Sintaxe do elemento 'node'
 A sintaxe de um vértice é a seguinte:
 ```
 node name
@@ -53,7 +55,7 @@ node name
 
 Onde ''name'' descreve o nome do vértice.
 
-## Síntaxe edge
+### Sintaxe do elemento 'edge'
 A sintaxe de um link é a seguinte:
 ```
 edge name origin destination function constants
@@ -68,7 +70,7 @@ Onde:
 
 A distinção entre os elementos ''edge'' e ''dedge'' é que o primeiro cria um link não-direcionado, ao passo que o segundo cria um link direcionado. Em termos práticos, o ''dedge'' cria dois links: um conforme a definição (origem para destino) e um adicional invertido (destino para origem).
 
-## Sintaxe od
+### Sintaxe do elemento 'od'
 A sintaxe de um par OD é a seguinte:
 ```
 od name origin destination flow
@@ -79,3 +81,38 @@ Onde:
 * ''origin'' refere-se ao vértice de origem.
 * ''destination'' refere-se ao vértice de destino.
 * ''flow'' corresponde ao número de veículos (demanda) utilizando o par OD em questão.
+
+## Redes inclusas
+
+As redes disponíveis neste repositório são as seguintes:
+* *Albany*, por [Liu, Abouzeid & Julius (2017). Traffic Flow in Vehicular Communication Networks. In: 2017 American Control Conference (ACC).](http://www.doi.org/10.23919/ACC.2017.7963812) (figure 4)
+* *OW*, por [Ortúzar & Willumsen (2011). Modelling transport (4th ed.).](https://books.google.com/books?id=qWa5MyS4CiwC) (example 10.1)
+* *Pigou*, por [Pigou (1932). The Economics of Welfare (4th ed.).](http://oll.libertyfund.org/titles/1410)
+* *Braess graphs*, representando expansões do grafo original do Braess paradox, por Stefanello & Bazzan (2016). Traffic Assignment Problem - Extending Braess Paradox. 
+  - *Braess_1_4200_10_c1*
+  - *Braess_2_4200_10_c1*
+  - *Braess_3_4200_10_c1*
+  - *Braess_4_4200_10_c1*
+  - *Braess_5_4200_10_c1*
+  - *Braess_6_4200_10_c1*
+  - *Braess_7_4200_10_c1*
+  - *Braess_8_4200_10_c1*
+  - *BBraess_1_2100_10_c1_2100*
+  - *BBraess_3_2100_10_c1_900*
+  - *BBraess_5_2100_10_c1_900*
+  - *BBraess_7_2100_10_c1_900*
+* Bar-Gera TNTP: instâncias selecionadas do repositório do [Bar-Gera](https://github.com/bstabler/TransportationNetworks).
+  - *Anaheim*
+  - *Berlin-Friedrichshain*
+  - *Berlin-Mitte-Center*
+  - *Berlin-Mitte-Prenzlauerberg-Friedrichshain-Center*
+  - *Berlin-Prenzlauerberg-Center*
+  - *Berlin-Tiergarten*
+  - *SiouxFalls*
+
+## Scripts inclusos
+
+Além das redes e da especificação em si, este repositório também disponibliza os seguintes scripts:
+* convert_bargera.py: converte um arquivo de rede no formato do [Bar-Gera](https://github.com/bstabler/TransportationNetworks) para o formato do presente repositório. 
+* python_example.py: fornece um exemplo de como manipular os arquivos de rede, ou seja, de como criar um grafo a partir do arquivo e como utilizá-lo.
+* validator.py: verifica erros em um arquivo de rede.
