@@ -1,0 +1,35 @@
+##################################################
+#                                                #
+# 1st Braess graph with singlecommodity flow     #
+#                                                #
+# First expansion of the network used in the     #
+# original Braess paradox.                       #
+#                                                #
+# Params: p=01 nusers=4200 fixarCostArc=010      #
+# typeFunction=c1=linear                         #
+#                                                #
+# Additional references at:                      #
+# https://www.overleaf.com/read/xqkrzrsfxcyv     #
+#                                                #
+# Created on 04-01-2017 by Fernando Stefanello   #
+#                                                #
+##################################################
+#
+#type name formula variables
+function BraessG (f) m*f+n
+#
+#type name
+node s
+node v1
+node w1
+node t
+#
+#type name origin destination function constants
+dedge s-v1 s v1 BraessG 0.0023808956916099772 0.0002380952380952381
+dedge s-w1 s w1 BraessG 0.00000000000000 10.00000000000000
+dedge v1-w1 v1 w1 BraessG 0.00000000000000 0.00000000000000
+dedge v1-t v1 t BraessG 0.00000000000000 10.00000000000000
+dedge s-v1 s v1 BraessG 0.0023808956916099772 0.0002380952380952381
+#
+#name origin destination flow
+od s|t s t 4200
