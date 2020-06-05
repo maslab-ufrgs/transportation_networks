@@ -1,0 +1,53 @@
+##################################################
+#                                                #
+# 4th Braess graph with singlecommodity flow     #
+#                                                #
+# Fourth expansion of the network used in the    #
+# original Braess paradox.                       #
+#                                                #
+# Params: p=04 nusers=4200 fixarCostArc=010      #
+# typeFunction=c1=linear                         #
+#                                                #
+# Additional references at:                      #
+# https://www.overleaf.com/read/xqkrzrsfxcyv     #
+#                                                #
+# Created on 04-01-2017 by Fernando Stefanello   #
+#                                                #
+##################################################
+#
+#type name formula variables
+function BraessG (f) m*f+n
+#
+#type name
+node s
+node v1
+node v2
+node v3
+node v4
+node w1
+node w2
+node w3
+node w4
+node t
+#
+#type name origin destination function constants
+dedge s-v1 s v1 BraessG 0.038094331065759636 0.0038095238095238095
+dedge s-v2 s v2 BraessG 0.02857091836734694 0.002142857142857143
+dedge s-v3 s v3 BraessG 0.019047392290249432 0.0009523809523809524
+dedge s-v4 s v4 BraessG 0.00952375283446712 0.0002380952380952381
+dedge s-w4 s w4 BraessG 0.00000000000000 10.00000000000000
+dedge v1-w1 v1 w1 BraessG 0.00000000000000 0.00000000000000
+dedge v1-t v1 t BraessG 0.00000000000000 10.00000000000000
+dedge v2-w1 v2 w1 BraessG 0.00000000000000 10.00000000000000
+dedge v2-w2 v2 w2 BraessG 0.00000000000000 0.00000000000000
+dedge v3-w2 v3 w2 BraessG 0.00000000000000 10.00000000000000
+dedge v3-w3 v3 w3 BraessG 0.00000000000000 0.00000000000000
+dedge v4-w3 v4 w3 BraessG 0.00000000000000 10.00000000000000
+dedge v4-w4 v4 w4 BraessG 0.00000000000000 0.00000000000000
+dedge w1-t w1 t BraessG 0.00952375283446712 0.0002380952380952381
+dedge w2-t w2 t BraessG 0.019047392290249432 0.0009523809523809524
+dedge w3-t w3 t BraessG 0.02857091836734694 0.002142857142857143
+dedge w4-t w4 t BraessG 0.038094331065759636 0.0038095238095238095
+#
+#name origin destination flow
+od s|t s t 4200
